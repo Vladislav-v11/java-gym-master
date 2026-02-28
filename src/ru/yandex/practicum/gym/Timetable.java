@@ -5,6 +5,7 @@ import java.util.*;
 public class Timetable {
 
     private Map<DayOfWeek, TreeMap<TimeOfDay, List<TrainingSession>>> timetable = new HashMap<>();
+    private HashMap<Coach, Integer> coachesCounter = new HashMap<>();
 
     public void addNewTrainingSession(TrainingSession trainingSession) {
         //сохраняем занятие в расписании
@@ -17,6 +18,9 @@ public class Timetable {
 
         timeTableForDay.put(trainingSession.getTimeOfDay(), listOfTrainingSession);
         timetable.put(trainingSession.getDayOfWeek(), timeTableForDay);
+        // добавляем занятие в расписании конкретного тренера
+        Coach currentCoach = trainingSession.getCoach();
+        coachesCounter.put(currentCoach, coachesCounter.getOrDefault(currentCoach, 0) + 1);
     }
 
     public TreeMap<TimeOfDay, List<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
@@ -29,23 +33,13 @@ public class Timetable {
     }
 
     public List<CounterOfTrainings> getCountByCoaches() {
-        Map<Coach, Integer> coachCounts = new HashMap<>();
-        for (TreeMap<TimeOfDay, List<TrainingSession>> daySessions : timetable.values()) {
-            for (List<TrainingSession> sessions : daySessions.values()) {
-                for (TrainingSession session : sessions) {
-                    Coach coach = session.getCoach();
-                    coachCounts.put(coach, coachCounts.getOrDefault(coach, 0) + 1);
-                }
-            }
+        List<CounterOfTrainings> counterOfTrainingsList = new ArrayList<CounterOfTrainings>();
+        for (Coach coach : coachesCounter.keySet()) {
+            CounterOfTrainings counterOfTrainings = new CounterOfTrainings(coach, coachesCounter.get(coach));
+            counterOfTrainingsList.add(counterOfTrainings);
         }
-
-        List<CounterOfTrainings> counterList = new ArrayList<>();
-        for (Map.Entry<Coach, Integer> entry : coachCounts.entrySet()) {
-            counterList.add(new CounterOfTrainings(entry.getKey(), entry.getValue()));
-        }
-
-        Collections.sort(counterList);
-        return counterList;
+        Collections.sort(counterOfTrainingsList);
+        return counterOfTrainingsList;
     }
-
 }
+

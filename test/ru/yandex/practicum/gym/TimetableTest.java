@@ -2,6 +2,7 @@ package ru.yandex.practicum.gym;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -17,6 +18,7 @@ public class TimetableTest {
         timetable = new Timetable();
     }
 
+    @DisplayName("Одна тренировка в день")
     @Test
     void testGetTrainingSessionsForDaySingleSession() {
         Group group = new Group("Акробатика для детей", Age.CHILD, 60);
@@ -37,6 +39,7 @@ public class TimetableTest {
         assertTrue(tuesdaySessions.isEmpty());
     }
 
+    @DisplayName("Несколько тренировок в день в разное время")
     @Test
     void testGetTrainingSessionsForDayMultipleSessions() {
         Coach coach = new Coach("Васильев", "Николай", "Сергеевич");
@@ -80,6 +83,7 @@ public class TimetableTest {
         assertTrue(tuesdaySessions.isEmpty());
     }
 
+    @DisplayName("Получение тренировки за конкретное время")
     @Test
     void testGetTrainingSessionsForDayAndTime() {
         Group group = new Group("Акробатика для детей", Age.CHILD, 60);
@@ -100,6 +104,7 @@ public class TimetableTest {
         assertTrue(mondaySessions14.isEmpty());
     }
 
+    @DisplayName("Подсчет тренировок у одного тренера")
     @Test
     void testGetCountByCoachesSingleCoach() {
         Group group = new Group("Акробатика для детей", Age.CHILD, 60);
@@ -115,6 +120,7 @@ public class TimetableTest {
         assertEquals(1, coachCounts.get(0).getCount());
     }
 
+    @DisplayName("Подсчет и сортировка тренировок у нескольких тренеров")
     @Test
     void testGetCountByCoachesMultipleCoaches() {
         Coach coach1 = new Coach("Васильев", "Николай", "Сергеевич");
@@ -145,6 +151,7 @@ public class TimetableTest {
         assertTrue(coachCounts.get(0).getCount() >= coachCounts.get(1).getCount());
     }
 
+    @DisplayName("Отсутствие тренировок у тренера")
     @Test
     void testGetCountByCoachesZeroTrainings() {
         Coach coach = new Coach("Васильев", "Николай", "Сергеевич");
