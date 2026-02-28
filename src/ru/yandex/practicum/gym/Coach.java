@@ -41,4 +41,12 @@ public class Coach {
     public String getMiddleName() {
         return middleName;
     }
+
+    @Override
+    public String toString() {
+        return "Coach{" +
+                "surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
